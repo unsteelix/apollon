@@ -1,10 +1,13 @@
 import * as React from "react";
 import DB, { cardsRef } from '../../firebase'
+import { store } from '../../index.jsx'
+import { connect } from 'react-redux'
 
-export default class App extends React.Component {
+
+class App extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { seconds: 0 };
+        this.state = { cards: {} };
     }
 
     tick() {
@@ -20,9 +23,14 @@ export default class App extends React.Component {
 
     initStore(data) {
         cardsRef.on("value", snapshot => {
-            dispatch({
-              type: INIT_STORE,
-              payload: snapshot.val()
+            console.log('1111111111111')
+            console.log(snapshot.val())
+            this.setState(state => ({
+                cards: snapshot.val()
+            }));
+            store.dispatch({
+              type: 'INIT_STORE',
+              data: snapshot.val()
             });
         });
     }
@@ -34,7 +42,7 @@ export default class App extends React.Component {
     componentDidMount() {
 
         // fetch data from Firebase
-        this.fetchData()
+        this.initStore()
 
     }
 
@@ -43,10 +51,27 @@ export default class App extends React.Component {
     }
 
     render() {
+
+        const cards = this.state.cards
+        const listCard = Object.keys(cards).map(key => 
+            <div key={key}>
+                {cards[key].title}
+            </div>
+        )
+
         return (
             <div>
-            Секунды: {this.state.seconds}
+                {listCard}
             </div>
         );
     }
 }
+
+ // маппинг состояния приложения в свойства компонента-контейнера
+ function mapStateToProps (state) {
+    return {
+        cards: state.cards
+    }
+}
+
+export default connect(mapStateToProps, null)(App)

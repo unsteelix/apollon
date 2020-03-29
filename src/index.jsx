@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import reducer from './mainReducer.jsx' 
 import App from './components/app/index.jsx'
  
-const store = createStore(reducer);
+export const store = createStore(reducer);
  
  
 ReactDOM.render(

@@ -50,6 +50,12 @@ class App extends React.Component {
         clearInterval(this.interval);
     }
 
+    click() {
+        let head = document.getElementsByTagName('head')[0]
+        $(head).append('<style type="text/css">H1 { font-size: 120%; /* Размер шрифта */font-family: Verdana, Arial, Helvetica, sans-serif; /* Семейство шрифта */color: #336; /* Цвет текста */}</style>')
+        console.log(head)
+    }
+
     render() {
 
         const cards = this.state.cards
@@ -61,7 +67,13 @@ class App extends React.Component {
 
         return (
             <div>
-                {listCard}
+                <div>
+                    {listCard}
+                </div>
+                <h1>css title</h1>
+                <div onClick={this.click}>
+                    css
+                </div>
             </div>
         );
     }

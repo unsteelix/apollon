@@ -18,3 +18,4 @@ const DB = firebase.database().ref();
 export default DB
 
 export const cardsRef = DB.child('cards')
+export const usersRef = DB.child('users')

@@ -3,6 +3,7 @@ import DB, { cardsRef, usersRef } from '../../firebase'
 import { store } from '../../index.jsx'
 import { connect } from 'react-redux'
 import Search from '../search/index.jsx'
+import Cards from '../cards/index.jsx'
 import { bindActionCreators } from 'redux'
 import { initStore } from './actionCreators.jsx'
 
@@ -102,8 +103,8 @@ class App extends React.Component {
 
         return (
             <div>
-                {this.props.user ? this.props.user.name : ''}
                 <Search />
+                <Cards />
                 <div>
                     {listCard}
                 </div>

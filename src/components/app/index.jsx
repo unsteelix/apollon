@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import Search from '../search/index.jsx'
 import Cards from '../cards/index.jsx'
 import { bindActionCreators } from 'redux'
-import { initPublicCards } from '../../actionCreators/cards.jsx'
-
+import { initPublicCards, fetchPublicCards } from '../../actionCreators/cards.jsx'
+import { test } from '../../utils/utils'
 
 class App extends React.Component {
     constructor(props) {
@@ -16,7 +16,8 @@ class App extends React.Component {
 
     componentDidMount() {
         // fetch PUBLIC data from Firebase
-        this.initPublicCards()
+        //this.initPublicCards()
+        this.props.fetchPublicCards()
     }
 
     componentWillUnmount() {
@@ -63,8 +64,9 @@ class App extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        initPublicCards: bindActionCreators(initPublicCards, dispatch)
+        initPublicCards: bindActionCreators(initPublicCards, dispatch),
+        fetchPublicCards: fetchPublicCards
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(mapStateToProps, {fetchPublicCards})(App)

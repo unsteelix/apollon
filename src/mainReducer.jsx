@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { INIT_PUBLIC_CARDS, UPDATE_CARDS, SET_QUERY, RESET_QUERY, SET_USER, RESET_USER } from './utils/actionTypes'
+import { INIT_PUBLIC_CARDS, FETCH_PUBLIC_CARDS, FETCH_PRIVATE_CARDS, UPDATE_CARDS, SET_QUERY, RESET_QUERY, SET_USER, RESET_USER } from './utils/actionTypes'
 
 
 function cardsReducer(state = {}, action) {
@@ -7,6 +7,16 @@ function cardsReducer(state = {}, action) {
     switch (action.type) {
         case INIT_PUBLIC_CARDS:
             console.log('Reducer INIT_PUBLIC_CARDS ', data)
+            return data
+        break
+
+        case FETCH_PUBLIC_CARDS:
+            console.log('Reducer FETCH_PUBLIC_CARDS ', data)
+            return data
+        break
+
+        case FETCH_PRIVATE_CARDS:
+            console.log('Reducer FETCH_PRIVATE_CARDS ', data)
             return data
         break
 

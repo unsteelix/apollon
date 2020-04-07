@@ -1,22 +1,18 @@
 import * as React from "react";
-import DB, { cardsRef, usersRef } from '../../firebase'
 import { connect } from 'react-redux'
 import Search from '../search/index.jsx'
 import Cards from '../cards/index.jsx'
-import { bindActionCreators } from 'redux'
-import { initPublicCards, fetchPublicCards } from '../../actionCreators/cards.jsx'
-import { test } from '../../utils/utils'
+import { fetchPublicCards } from '../../actions/index.js'
+
 
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
-        this.initPublicCards = this.initPublicCards.bind(this);
+        this.click = this.click.bind(this);
     }
 
     componentDidMount() {
-        // fetch PUBLIC data from Firebase
-        //this.initPublicCards()
         this.props.fetchPublicCards()
     }
 
@@ -25,12 +21,6 @@ class App extends React.Component {
     }
 
 
-    initPublicCards() {
-        cardsRef.orderByChild("public").equalTo(true).once("value", snapshot => {
-            const publicCards = snapshot.val()
-            this.props.initPublicCards(publicCards)
-        });
-    }
 
     click() {
         let head = document.getElementsByTagName('head')[0]
@@ -62,11 +52,4 @@ class App extends React.Component {
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        initPublicCards: bindActionCreators(initPublicCards, dispatch),
-        fetchPublicCards: fetchPublicCards
-    }
-}
-
-export default connect(mapStateToProps, {fetchPublicCards})(App)
+export default connect(mapStateToProps, { fetchPublicCards })(App)

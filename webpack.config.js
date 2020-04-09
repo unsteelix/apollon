@@ -1,5 +1,6 @@
-var path = require('path');
- 
+const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 module.exports = {
     devtool: "source-map", // Enable sourcemaps for debugging webpack's output.
     entry: "./src/index.jsx", // входная точка - исходный файл
@@ -17,7 +18,26 @@ module.exports = {
                 options:{
                     presets:["@babel/preset-env", "@babel/preset-react"]    // используемые плагины
                 }
+            },
+            {
+                test: /\.(s*)css$/,
+                include: path.resolve(__dirname, './src/style'),
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                          publicPath: './dist',
+                        }
+                    },
+                    'css-loader',
+                    'sass-loader'
+                ]
             }
         ]
-    }
+    },
+    plugins: [
+        new MiniCssExtractPlugin({
+           filename: 'style.css',
+        }),
+    ]
 }

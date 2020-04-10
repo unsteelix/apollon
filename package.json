@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "webpack-dev-server --hot --open",
     "build": "webpack",
-    "start": "webpack --watch"
+    
+    "start": "",
+  
+    "sass": "webpack --watch"
   },
   "author": "",
   "license": "ISC",

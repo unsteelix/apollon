@@ -8,12 +8,28 @@ function cardsReducer(state = {}, action) {
         
         case FETCH_PUBLIC_CARDS:
             console.log('Reducer FETCH_PUBLIC_CARDS ', data)
-            return data
+            return {
+                ...state,
+                ...data
+            }
         break
 
         case FETCH_PRIVATE_CARDS:
             console.log('Reducer FETCH_PRIVATE_CARDS ', data)
-            return data
+
+            // убираем приватные карточки другого юзера
+            // чтобы, при перезаходе, приватные карточки прошлого юзера исчезали 
+            let onlyPublicCards = {}
+            for(let userId in state){
+                const card = state[userId]
+                if(card.public){
+                    onlyPublicCards[userId] = card
+                }
+            }
+            return {
+                ...onlyPublicCards,
+                ...data
+            }
         break
 
         case UPDATE_CARDS:

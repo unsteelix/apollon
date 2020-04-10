@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "webpack-dev-server --hot --open",
     "build": "webpack",
-    "start": "webpack-dev-server --history-api-fallback --inline --progress --open",
-    "watch": "webpack --watch"
+    "start": "webpack --watch"
   },
   "author": "",
   "license": "ISC",
@@ -34,13 +33,10 @@
   },
   "dependencies": {
     "firebase": "^7.13.1",
-    "html-webpack-plugin": "^4.2.0",
-    "raw-loader": "^4.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0",
-    "style-loader": "^1.1.3"
+    "redux-thunk": "^2.3.0"
   }
 }

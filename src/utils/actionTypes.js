@@ -1,0 +1,9 @@
+export const FETCH_PUBLIC_CARDS = 'FETCH_PUBLIC_CARDS'
+export const FETCH_PRIVATE_CARDS = 'FETCH_PRIVATE_CARDS'
+export const UPDATE_CARDS = 'UPDATE_CARDS'
+
+export const SET_QUERY = 'SET_QUERY'
+export const RESET_QUERY = 'RESET_QUERY'
+
+export const SET_USER = 'SET_USER'
+export const RESET_USER = 'RESET_USER'

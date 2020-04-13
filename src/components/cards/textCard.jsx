@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from 'react-redux'
 import { fetchPrivateCards, updateCards, resetQuery, setUser } from '../../actions/index.js'
-import { hasInList, getPassExprByList } from '../../utils/utils'
+import { hasInList, getPassExprByList, rawDataObjToStr, parseRawInputText } from '../../utils/utils'
 import Help from './help.jsx'
 import User from './user.jsx'
 import { isThisTypeNode } from "typescript";
@@ -11,14 +11,9 @@ class TextCard extends React.Component {
         super(props);
 
         const { title, data, tags, userId, style, pass } = this.props.data
-        let tagsStr = '# '
-        for(let key in tags){
-            let tag = tags[key]
-            tagsStr = tagsStr + `${tag}, `
-        }
-
+        
         this.state = {
-            rawInputText: `! ${title}\n\n${data.text}\n\n${tagsStr}`,
+            rawInputText: rawDataObjToStr(this.props.data),
             editMode: false,
             title: title,
             text: data.text,
@@ -29,9 +24,6 @@ class TextCard extends React.Component {
 
         this.switchMode = this.switchMode.bind(this);
         this.onTextareaChange = this.onTextareaChange.bind(this);
-        this.parseText = this.parseText.bind(this);
-        this.getTagsFromStr = this.getTagsFromStr.bind(this);
-        this.getTitleFromStr = this.getTitleFromStr.bind(this);
     }
 
 
@@ -66,7 +58,7 @@ class TextCard extends React.Component {
     onTextareaChange(e){
         let rawInputText = e.target.value
 
-        const { title, text, tags } = this.parseText(rawInputText)
+        const { title, text, tags } = parseRawInputText(rawInputText)
 
         this.setState((state, props) => {
             return {
@@ -78,53 +70,9 @@ class TextCard extends React.Component {
         })
     }
 
-    // парсим текст: вычленяем title, основной текст и теги
-    parseText(rawText){
-        
-        let title = ''
-        let text = ''
-        let tags = {}
 
-        /*        Title        */
-        let sTitle = rawText.match(/^! .*/i)
-        if(sTitle){
-            title = this.getTitleFromStr(sTitle[0])   // ищем title
-            rawText = rawText.replace(/^! .*/i, '')         // убираем title из исходного текста 
-        }
 
-        /*        Tags        */
-        let sTags = rawText.match(/# .*$/i)
-        if(sTags){
-            let liatTags = this.getTagsFromStr(sTags[0])   // ищем tags
-            rawText = rawText.replace(/# .*$/i, '')      // убираем tags из исходного текста 
-            liatTags.forEach((tag, i) => {
-                tags[i] = tag
-            })
-        }
 
-        text = rawText
-        console.log({title, tags, text})
-
-        return {
-            title: title,
-            text: text,
-            tags: tags
-        }
-    }
-
-    // убирает первый символ # и возвращает список тегов
-    getTagsFromStr(str){
-        str = str.slice(2) // remove #
-        return str.split(',').map(tag => {
-            return tag.trim()
-        })
-    }
-
-    // убирает первый символ ! и пробелы
-    getTitleFromStr(str){
-        str = str.slice(2) // remove !
-        return str.trim()
-    }
 
 
     render() {             
@@ -133,14 +81,14 @@ class TextCard extends React.Component {
         
         if(this.state.editMode){
             el = <div>
-                <textarea value={this.state.rawInputText} onChange={this.onTextareaChange}/>
+                <textarea value={this.state.rawInputText} onChange={this.onTextareaChange} rows="10" cols="48" />
             </div>
         } else {
             const { title, text, tags } = this.state
             let tagsStr = ''
             for(let key in tags){
-                let tag = tags[key]
-                tagsStr = tagsStr + `#${tag} `
+                const tag = tags[key]
+                tagsStr += `#${tag} `
             }
 
             el = <div>

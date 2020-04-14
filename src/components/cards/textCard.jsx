@@ -80,9 +80,9 @@ class TextCard extends React.Component {
         let el
         
         if(this.state.editMode){
-            el = <div>
-                <textarea value={this.state.rawInputText} onChange={this.onTextareaChange} rows="10" cols="48" />
-            </div>
+            el = <>
+                <textarea value={this.state.rawInputText} onChange={this.onTextareaChange} cols="48" />
+            </>
         } else {
             const { title, text, tags } = this.state
             let tagsStr = ''
@@ -91,11 +91,11 @@ class TextCard extends React.Component {
                 tagsStr += `#${tag} `
             }
 
-            el = <div>
-                <div>{title}</div><br/>
-                <div>{text}</div><br/>
-                <div>{tagsStr}</div>
-            </div>
+            el = <>
+                {title ? <div className="card-title">{title}</div> : ''}
+                <div className="card-text">{text}</div>
+                {tagsStr ? <div className="card-tags">{tagsStr}</div> : ''}
+            </>
         }
 
         return (

@@ -123,7 +123,10 @@ class Cards extends React.Component {
         const cardIds = Object.keys(cardsFiltered)
 
         const cardsTemp = cardIds.map(cardId => {
-            const card = cardsFiltered[cardId]
+            const card = {
+                cardId: cardId,
+                ...cardsFiltered[cardId]
+            }
             return(            
                 <div key={cardId} className="card" >
                     <TextCard data={card} />

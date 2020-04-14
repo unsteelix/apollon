@@ -20,10 +20,10 @@ function cardsReducer(state = {}, action) {
             // убираем приватные карточки другого юзера
             // чтобы, при перезаходе, приватные карточки прошлого юзера исчезали 
             let onlyPublicCards = {}
-            for(let userId in state){
-                const card = state[userId]
-                if(card.public){
-                    onlyPublicCards[userId] = card
+            for(let cardId in state){
+                const card = state[cardId]
+                if(card.showAll){
+                    onlyPublicCards[cardId] = card
                 }
             }
             return {

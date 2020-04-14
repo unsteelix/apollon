@@ -3,7 +3,7 @@ import { cardsRef } from '../firebase'
 
 
 export const fetchPublicCards = () => async dispatch => {
-    cardsRef.orderByChild("public").equalTo(true).on("value", snapshot => {
+    cardsRef.orderByChild("showAll").equalTo(true).on("value", snapshot => {
         dispatch({
             type: FETCH_PUBLIC_CARDS,
             data: snapshot.val()

@@ -66,6 +66,7 @@ body {
         }
         .card-text{
             color: $primary-color-2;
+            white-space: pre-wrap;
         }
         .card-tags{
             margin-top: 1rem;

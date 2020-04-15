@@ -96,8 +96,7 @@ export const parseRawInputText = (rawText) => {
         })
     }
 
-    text = rawText
-    console.log({title, tags, text})
+    text = rawText.trim()
 
     return {
         title: title,

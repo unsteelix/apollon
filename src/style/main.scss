@@ -54,7 +54,6 @@ body {
         //border-radius: 4px;
         //margin: 2px 0;        
         color: $primary-color-1;
-        padding: 1rem;
 
         &:first-child{
             //border-top: 1px solid silver;
@@ -72,11 +71,51 @@ body {
             margin-top: 1rem;
         }
 
+        .edit-block{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            border-top: 1px solid gainsboro;
+
+            .update-button{
+                cursor: pointer;
+            }
+
+            .show-all-toggle, .edit-all-toggle{
+                cursor: pointer;
+            }
+
+            .pass-input{
+
+                input{
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 1rem;
+                    outline: none;
+                    border: 1px solid gainsboro;
+                }
+            }
+        }
+
         textarea{
             overflow: auto;
             width: 100%;
             height: 100%;
             min-height: 10rem;
+            outline-color: gainsboro;
+            outline: none;
+            border: none;
+        }
+
+        
+        .text-card{
+            padding: 1rem;
+
+            &.edit-mode{
+                padding: 0rem;            
+            }
         }
     }
 }

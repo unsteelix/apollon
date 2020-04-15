@@ -128,7 +128,7 @@ class Cards extends React.Component {
                 ...cardsFiltered[cardId]
             }
             return(            
-                <div key={cardId} className="card" >
+                <div key={cardId} className="card" id={cardId}>
                     <TextCard data={card} />
                 </div>
             )

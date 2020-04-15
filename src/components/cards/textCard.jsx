@@ -38,6 +38,9 @@ class TextCard extends React.Component {
         this.onPassInputChange = this.onPassInputChange.bind(this);
     }
 
+    componentDidUpdate(){
+        $('textarea', `#${this.state.cardId}`).trigger("focus");
+    }
 
     componentDidMount() {
 
@@ -143,7 +146,7 @@ class TextCard extends React.Component {
             el = <>
                 <textarea value={this.state.rawInputText} onChange={this.onTextareaChange} cols="48" />
                 <div className="edit-block">
-                    <div onClick={this.updateButton} >Update in FB</div>
+                    <div className="update-button" onClick={this.updateButton} >Update in FB</div>
                     <div className="show-all-toggle" onClick={this.showAllButton}>showAll{this.state.showAll ? '*' : ''}</div>
                     <div className="edit-all-toggle" onClick={this.editAllButton}>editAll{this.state.editAll ? '*' : ''}</div>
                     <div className="pass-input">
@@ -167,7 +170,7 @@ class TextCard extends React.Component {
         }
 
         return (
-            <div className="text-card" onDoubleClick={ () => this.switchMode() } >
+            <div className={`text-card${this.state.editMode ? " edit-mode" : " view-mode"}`} onDoubleClick={ () => this.switchMode() } >
                 {el}
             </div>
         );

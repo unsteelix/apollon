@@ -24,7 +24,9 @@ class TextCard extends React.Component {
             style: style,
             pass: pass,
             showAll: showAll,
-            editAll: editAll
+            editAll: editAll,
+            showLockScreen: pass ? true : false,
+            lockScreenInput: ''
         };
 
 
@@ -36,14 +38,21 @@ class TextCard extends React.Component {
         this.showAllButton = this.showAllButton.bind(this);
         this.editAllButton = this.editAllButton.bind(this);
         this.onPassInputChange = this.onPassInputChange.bind(this);
+        this.onLockScreenInputChange = this.onLockScreenInputChange.bind(this);
+        this.unlock = this.unlock.bind(this);
     }
 
     componentDidUpdate(){
-        $('textarea', `#${this.state.cardId}`).trigger("focus");
+
     }
 
     componentDidMount() {
-
+        /*
+        $(`#${this.state.cardId}`).dblclick(() => {
+            console.log('1111')
+            //$('textarea', `#${this.state.cardId}`).trigger("focus");
+        })
+        */
     }
 
     componentWillUnmount() {
@@ -88,6 +97,24 @@ class TextCard extends React.Component {
     onPassInputChange(e){
         const pass = e.target.value.trim()
         this.setState({pass: pass})
+    }
+
+    onLockScreenInputChange(e){
+        const lockScreenInput = e.target.value.trim()
+
+        this.setState({
+            lockScreenInput: lockScreenInput
+        })
+
+        if(lockScreenInput === this.state.pass){
+            this.unlock()
+        }
+    }
+
+    unlock(){
+        this.setState({
+            showLockScreen: false
+        })
     }
 
     showAllButton(){
@@ -140,6 +167,11 @@ class TextCard extends React.Component {
 
     render() {             
 
+        const lockScreen = <div className="lock-screen">
+            <input type="password" value={this.state.lockScreenInput} onChange={this.onLockScreenInputChange} placeholder={this.state.pass} />
+        </div>
+
+
         let el
         
         if(this.state.editMode){
@@ -154,6 +186,7 @@ class TextCard extends React.Component {
                     </div>
                 </div>
             </>
+            el = this.state.showLockScreen ? lockScreen : el
         } else {
             const { title, text, tags } = this.state
             let tagsStr = ''
@@ -164,7 +197,7 @@ class TextCard extends React.Component {
 
             el = <>
                 {title ? <div className="card-title">{title}</div> : ''}
-                <div className="card-text">{text}</div>
+                {this.state.showLockScreen ? lockScreen : <div className="card-text">{text}</div>}
                 {tagsStr ? <div className="card-tags">{tagsStr}</div> : ''}
             </>
         }

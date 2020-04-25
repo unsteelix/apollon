@@ -28,9 +28,9 @@ class Search extends React.Component {
 
 
     render() {
-        const { user } = this.props
+        const { user, query } = this.props
         return (
-            <div className="search-input" >
+            <div className={`search-input${query.length > 0 ? ' align-top' : ' align-center'}`} >
                 {user ? <span>{user.name}</span> : ''}
                 <input type="text" value={this.props.query} onChange={ (e) => {this.inputChange(e)}} />
                 <div className="clear-button" onClick={ () => this.props.resetQuery() }>clear</div>

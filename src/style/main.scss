@@ -23,13 +23,14 @@ body {
     flex-direction: row;
     justify-content: start;
     transition: 0.5s all;
+    margin: 0 auto;
 
     &.align-top{
-        margin: 0 auto;
+        //margin: 0 auto;
     }
 
     &.align-center{
-        margin: 50vh auto;
+        //margin: 50vh auto;
     }
 
     input{

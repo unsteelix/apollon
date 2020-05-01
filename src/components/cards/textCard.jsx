@@ -26,7 +26,8 @@ class TextCard extends React.Component {
             showAll: showAll,
             editAll: editAll,
             showLockScreen: pass ? true : false,
-            lockScreenInput: ''
+            lockScreenInput: '',
+            userHasAccessToEdit: editAll || (this.props.user && userId === this.props.user.userId)
         };
 
 
@@ -62,7 +63,7 @@ class TextCard extends React.Component {
     // если вызвать без аргументов то переключает текущий режим
     // если вызвать с конкретным режимом, то переключает на него
     switchMode(mode){
-        if(mode){               // editMode / viewMode
+        if(mode){               // editMode | viewMode
             if(mode === 'editMode' || mode === 'viewMode'){
                 this.setState((state, props) => {
                     return {
@@ -167,6 +168,10 @@ class TextCard extends React.Component {
 
     render() {             
 
+        const notAvailableForEdit = <div className="not-available-for-edit">
+            Нет прав для редактирования
+        </div>
+
         const lockScreen = <div className="lock-screen">
             <input type="password" value={this.state.lockScreenInput} onChange={this.onLockScreenInputChange} placeholder={this.state.pass} />
         </div>
@@ -187,6 +192,7 @@ class TextCard extends React.Component {
                 </div>
             </>
             el = this.state.showLockScreen ? lockScreen : el
+            el = this.state.userHasAccessToEdit ? el : notAvailableForEdit
         } else {
             const { title, text, tags } = this.state
             let tagsStr = ''
@@ -213,7 +219,8 @@ class TextCard extends React.Component {
 // маппинг состояния приложения в свойства компонента-контейнера
 const mapStateToProps = state => ({ 
     query: state.query,
-    cards: state.cards
+    cards: state.cards,
+    user: state.user
 })
 
 

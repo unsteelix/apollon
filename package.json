@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --hot --open",
-    "sass": "webpack --watch",
-    "build": "webpack"
+    "watch-js": "webpack-dev-server --hot --open",
+    "watch-css": "webpack --watch",
+    "build": "webpack",
+    "start": "concurrently \"npm:watch-js\" \"npm:watch-css\" "
   },
   "author": "",
   "license": "ISC",

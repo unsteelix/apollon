@@ -6,6 +6,7 @@ import Help from './help.jsx'
 import User from './user.jsx'
 import { isThisTypeNode, getAllJSDocTagsOfKind } from "typescript";
 import { cardsRef } from '../../firebase'
+var sass = require('sass');
 
 class TextCard extends React.Component {
     constructor(props) {
@@ -41,6 +42,8 @@ class TextCard extends React.Component {
         this.onPassInputChange = this.onPassInputChange.bind(this);
         this.onLockScreenInputChange = this.onLockScreenInputChange.bind(this);
         this.unlock = this.unlock.bind(this);
+        this.onStyleTextareaChange = this.onStyleTextareaChange.bind(this);
+        this.sassToCss = this.sassToCss.bind(this);
     }
 
     componentDidUpdate(){
@@ -161,6 +164,28 @@ class TextCard extends React.Component {
         return cardsRef.child(cardId).set(card);
     }
 
+    onStyleTextareaChange(){
+        let style = e.target.value
+
+        const { title, text, tags } = parseRawInputText(rawInputText)
+
+        let css = sassToCss()
+        console.log(css)
+        this.setState((state, props) => {
+            return {
+                style: style
+            }
+        })
+    }
+
+    sassToCss(source){
+        result = sass.renderSync({
+            data: source,
+            outputStyle: "compact"
+        });
+        const css = result.css.toString()
+        return css
+    }
 
 
 
@@ -188,6 +213,9 @@ class TextCard extends React.Component {
                     <div className="edit-all-toggle" onClick={this.editAllButton}>editAll{this.state.editAll ? '*' : ''}</div>
                     <div className="pass-input">
                         <input type="password" value={this.state.pass} onChange={this.onPassInputChange} />
+                    </div>
+                    <div className="style-input">
+                        <textarea value={this.state.styleInput} onChange={this.onStyleTextareaChange} cols="48" ></textarea>
                     </div>
                 </div>
             </>

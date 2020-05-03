@@ -8,7 +8,7 @@ import './style/main.scss';
 
 
 import reducer from './mainReducer.jsx' 
-import App from './components/app/index.jsx'
+import App from './components/App.jsx'
  
 export const store = createStore(reducer, {}, applyMiddleware(reduxThunk));
 

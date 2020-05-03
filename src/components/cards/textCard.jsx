@@ -6,14 +6,51 @@ import Help from './help.jsx'
 import User from './user.jsx'
 import { isThisTypeNode, getAllJSDocTagsOfKind } from "typescript";
 import { cardsRef } from '../../firebase'
-var sass = require('sass');
+import AuthCard from './authCard.jsx'
 
 class TextCard extends React.Component {
     constructor(props) {
         super(props);
+        console.log(this.props)
 
-        const { cardId, title, data, tags, userId, style, pass='', showAll=false, editAll=false } = this.props.data
-        
+        let isNewCard = false
+        if(!this.props.data || !this.props.data.cardId){
+            isNewCard = true
+        }
+        console.log(isNewCard)
+        if(isNewCard){
+            const defaultDataNewCard = {
+                cardId: 'rgfdg5555',
+                title: 'new title',
+                data: {},
+                tags: [],
+                userId: this.props.user.userId,
+                style: '',
+                pass: '',
+                showAll: true,
+                editAll: true
+            }
+            const { cardId, title, data, tags, userId, style, pass='', showAll=false, editAll=false } = defaultDataNewCard
+        } else {
+            const { cardId, title, data, tags, userId, style, pass='', showAll=false, editAll=false } = this.props.data
+        }
+
+
+        const defaultDataNewCard = {
+            cardId: 'rgfdg5555',
+            title: 'new title',
+            data: {},
+            tags: [],
+            userId: this.props.user.userId,
+            style: '',
+            pass: '',
+            showAll: true,
+            editAll: true
+        }
+        const { cardId, title, data, tags, userId, style, pass='', showAll=false, editAll=false } = this.props.data || defaultDataNewCard
+
+
+                console.log(cardId)
         this.state = {
             rawInputText: rawDataObjToStr(this.props.data),
             editMode: false,
@@ -43,7 +80,6 @@ class TextCard extends React.Component {
         this.onLockScreenInputChange = this.onLockScreenInputChange.bind(this);
         this.unlock = this.unlock.bind(this);
         this.onStyleTextareaChange = this.onStyleTextareaChange.bind(this);
-        this.sassToCss = this.sassToCss.bind(this);
     }
 
     componentDidUpdate(){
@@ -164,13 +200,9 @@ class TextCard extends React.Component {
         return cardsRef.child(cardId).set(card);
     }
 
-    onStyleTextareaChange(){
-        let style = e.target.value
+    onStyleTextareaChange(e){
+        const style = e.target.value
 
-        const { title, text, tags } = parseRawInputText(rawInputText)
-
-        let css = sassToCss()
-        console.log(css)
         this.setState((state, props) => {
             return {
                 style: style
@@ -178,14 +210,6 @@ class TextCard extends React.Component {
         })
     }
 
-    sassToCss(source){
-        result = sass.renderSync({
-            data: source,
-            outputStyle: "compact"
-        });
-        const css = result.css.toString()
-        return css
-    }
 
 
 
@@ -204,6 +228,22 @@ class TextCard extends React.Component {
 
         let el
         
+        if(!this.state.cardId){     // add new card
+            
+            if(!this.state.userId){  // need auth
+                return <AuthCard />
+            } else {                // gen new cardId
+                const newCardId = 'dsfsdfsdfsdf546456'
+                this.setState({cardId: newCardId})
+
+            }
+
+        } else {  // card exist
+            
+        }
+
+
+
         if(this.state.editMode){
             el = <>
                 <textarea value={this.state.rawInputText} onChange={this.onTextareaChange} cols="48" />
@@ -214,8 +254,10 @@ class TextCard extends React.Component {
                     <div className="pass-input">
                         <input type="password" value={this.state.pass} onChange={this.onPassInputChange} />
                     </div>
+                </div>
+                <div className="edit-style-block">
                     <div className="style-input">
-                        <textarea value={this.state.styleInput} onChange={this.onStyleTextareaChange} cols="48" ></textarea>
+                        <textarea value={this.state.style.trim().length > 0 ? this.state.style : `#${this.state.cardId}{}`} onChange={this.onStyleTextareaChange} cols="48" />
                     </div>
                 </div>
             </>
@@ -237,9 +279,14 @@ class TextCard extends React.Component {
         }
 
         return (
+            <>
+            <style type="text/css">
+                {this.state.style}
+            </style>
             <div className={`text-card${this.state.editMode ? " edit-mode" : " view-mode"}`} onDoubleClick={ () => this.switchMode() } >
                 {el}
             </div>
+            </>
         );
     }
 }

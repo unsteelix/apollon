@@ -102,10 +102,20 @@ body {
                 input{
                     width: 100%;
                     height: 100%;
-                    border-radius: 1rem;
+                    //border-radius: 1rem;
                     outline: none;
                     border: 1px solid gainsboro;
                 }
+            }
+        }
+
+        .edit-style-block{
+
+            textarea{
+                margin: 0 0.5rem 0.5rem 0.5rem;
+                width: 97%;
+                box-sizing: border-box;
+                border: 1px solid lightgray;
             }
         }
 
@@ -127,5 +137,8 @@ body {
                 padding: 0rem;            
             }
         }
+    }
+    .auth-card{
+        white-space: pre-wrap;
     }
 }

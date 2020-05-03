@@ -5,6 +5,9 @@ import { hasInList, getPassExprByList } from '../../utils/utils'
 import Help from './help.jsx'
 import User from './user.jsx'
 import TextCard from './textCard.jsx'
+import AuthCard from './authCard.jsx'
+
+
 
 
 class Cards extends React.Component {
@@ -185,9 +188,20 @@ class Cards extends React.Component {
                     console.log('User card')
                     return <User key="user-card" />
                 }  
+
+                if(hasInList(specWords, '/a')){
+                    console.log('Auth card')
+                    return <AuthCard key="auth-card" />
+                }  
         
                 if(hasInList(specWords, '/add')){
                     console.log('Add card')
+                    let card = null
+                    if(this.props.user){
+                        return <TextCard key="add-card" data={card} />
+                    } else {
+                        return <AuthCard key="auth-card" />
+                    }
                 }              
             })
 
@@ -210,7 +224,8 @@ class Cards extends React.Component {
 // маппинг состояния приложения в свойства компонента-контейнера
 const mapStateToProps = state => ({ 
     query: state.query,
-    cards: state.cards
+    cards: state.cards,
+    user: state.user
 })
 
 

@@ -21,9 +21,12 @@ export const fetchPrivateCards = (userId) => async dispatch => {
 };
 
 export const updateCards = (cards) => dispatch => {
-    dispatch({
-        type: UPDATE_CARDS,
-        data: cards
+    return cardsRef.update(cards)
+    .then((res) => {
+        dispatch({
+            type: UPDATE_CARDS,
+            data: cards
+        })
     })
 }
 

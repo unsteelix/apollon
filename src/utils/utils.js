@@ -1,3 +1,6 @@
+import { v4 as uuidv4 } from 'uuid';
+import { defaultCard } from './const';
+
 // возвращает true, если данная значение(val) находится в данной строке/массиве (list)
 export const hasInList = (list, val) => {
     if(list.indexOf(val) !== -1){
@@ -117,4 +120,46 @@ export const getTagsFromStr = (str) => {
 export const getTitleFromStr = (str) => {
     str = str.slice(2) // remove !
     return str.trim()
+}
+
+
+export const getUniqCardId = () => {
+    return uuidv4();
+}
+
+
+// мержит дефолтную карту и новые свойства
+export const normalizeCard = card => {
+    
+    let res = {
+        ...defaultCard
+    }
+
+    if( 'title' in card && card.title ){
+        res.title = card.title
+    }
+    if( 'data' in card && card.data ){
+        res.data = card.data
+    }
+    if( 'tags' in card && card.tags ){
+        res.tags = card.tags
+    }
+
+    if( 'userId' in card && card.userId ){
+        res.userId = card.userId
+    }
+    if( 'editAll' in card && card.editAll ){
+        res.editAll = card.editAll
+    }
+    if( 'showAll' in card && card.showAll ){
+        res.showAll = card.showAll
+    }
+    if( 'pass' in card && card.pass ){
+        res.pass = card.pass
+    }
+    if( 'style' in card && card.style ){
+        res.style = card.style
+    }    
+
+    return res 
 }

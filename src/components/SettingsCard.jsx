@@ -1,7 +1,8 @@
 import * as React from "react";
 import { connect } from 'react-redux'
 import { fetchPrivateCards, updateCards, resetQuery, setUser } from '../actions/index.js'
-
+import { getUniqCardId, normalizeCard } from '../utils/utils'
+import { defaultCard } from '../utils/const'
 
 class SettingsCard extends React.Component {
     constructor(props) {
@@ -78,17 +79,12 @@ class SettingsCard extends React.Component {
         const { style, pass, showAll, editAll, cardId } = this.props.settings
         const { title, data, tags, userId } = this.props.otherData
 
-        const card = {
-            title: title,
-            data: data,
-            tags: tags,
-            userId: userId, 
 
-            editAll: this.state.editAll,
-            showAll: showAll,
-            pass: pass,
-            style: style
-        }
+        const card = normalizeCard({
+            ...this.props.otherData,
+            ...this.props.settings,
+            editAll: this.state.editAll
+        })
 
         const cards = {
             [cardId]: card
@@ -98,10 +94,11 @@ class SettingsCard extends React.Component {
         
         if(!cardId){        // cardId не существует => добавление новой карты
 
-            const newCardId = 'new_121212'
+            const newCardId = getUniqCardId()
             const newCard = {
                 [newCardId]: card
             }
+            console.log(newCard)
             this.props.updateCards(newCard)        
             .then(() => {
                 this.setState({disableSaveButton: false})

@@ -7,18 +7,6 @@ class TagsCardEdit extends React.Component {
         this.strToArray = this.strToArray.bind(this);
     }
 
-    componentDidUpdate(){
-
-    }
-
-    componentDidMount() {
-
-    }
-
-    componentWillUnmount() {
-
-    }
-
     // конвертируем строку в массив тегов
     strToArray(str){
         return str.split(',').map(tag => {

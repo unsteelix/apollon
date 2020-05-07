@@ -148,7 +148,7 @@ class Cards extends React.Component {
 
 
     getListAdminCard() {
-        const { query } = this.props
+        const { query, user } = this.props
 
         // парсим строку запроса
         query.trim().toLowerCase()
@@ -196,10 +196,23 @@ class Cards extends React.Component {
                 }  
         
                 if(hasInList(specWords, '/n')){
-                    let card = null
                     // новую карту можно добавить только залогинившись
-                    if(this.props.user){
-                        return <Text key="add-card" data={card} />
+                    if(user){
+                        const card = {
+                            cardId: null,
+                            data: {
+                                type: "text",
+                                text: ""
+                            },
+                            //title: "", 
+                            //tags: [], 
+                            //pass: "",
+                            //style: "", 
+                            userId: user.userId, 
+                            //editAll: false, 
+                            //showAll: false
+                        }
+                        return <Card data={card} mode="edit" key="new-card" />
                     } else {
                         return <Auth key="auth-card" />
                     }

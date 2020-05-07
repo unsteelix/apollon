@@ -146,6 +146,11 @@ body {
 
                 }
 
+                .save-button{
+                    cursor: pointer;
+                    margin: 0.3rem;
+                }
+                
                 .show-all-toggle{
                     cursor: pointer;
                     margin: 0.3rem;
@@ -173,6 +178,7 @@ body {
                         outline: none;
                     }
                 }
+
             }
 
         }

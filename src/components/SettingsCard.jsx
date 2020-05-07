@@ -24,7 +24,8 @@ class SettingsCard extends React.Component {
         };
         */
         this.state = {
-            disableUpdateButton: false
+            disableSaveButton: false,
+            editAll: this.props.settings.editAll 
         };
 
 
@@ -34,7 +35,7 @@ class SettingsCard extends React.Component {
         this.editAllButton = this.editAllButton.bind(this);
         this.onSettingsChange = this.props.onSettingsChange;
 
-        this.onUpdateButton = this.onUpdateButton.bind(this);
+        this.onSaveButton = this.onSaveButton.bind(this);
     }
 
 
@@ -47,7 +48,7 @@ class SettingsCard extends React.Component {
     }
 
     showAllButton(){
-        const showAll = this.state.showAll ? false : true
+        const showAll = this.props.settings.showAll ? false : true
         this.setState({showAll: showAll})
         this.onSettingsChange({
             showAll: showAll
@@ -57,9 +58,11 @@ class SettingsCard extends React.Component {
     editAllButton(){
         const editAll = this.state.editAll ? false : true
         this.setState({editAll: editAll})
+        /*
         this.onSettingsChange({
             editAll: editAll
         })
+        */
     }
 
     onStyleTextareaChange(e){
@@ -70,30 +73,49 @@ class SettingsCard extends React.Component {
         })
     }
 
-    onUpdateButton(){
+    onSaveButton(){
 
         const { style, pass, showAll, editAll, cardId } = this.props.settings
         const { title, data, tags, userId } = this.props.otherData
 
-        const cards = {
-            [cardId]: {
-                title: title,
-                data: data,
-                tags: tags,
-                userId: userId, 
+        const card = {
+            title: title,
+            data: data,
+            tags: tags,
+            userId: userId, 
 
-                editAll: editAll,
-                showAll: showAll,
-                pass: pass,
-                style: style
-            }
+            editAll: this.state.editAll,
+            showAll: showAll,
+            pass: pass,
+            style: style
         }
 
-        this.setState({disableUpdateButton: true})
-        this.props.updateCards(cards)        
-        .then(() => {
-            this.setState({disableUpdateButton: false})
-        })
+        const cards = {
+            [cardId]: card
+        }
+
+        this.setState({disableSaveButton: true})
+        
+        if(!cardId){        // cardId не существует => добавление новой карты
+
+            const newCardId = 'new_121212'
+            const newCard = {
+                [newCardId]: card
+            }
+            this.props.updateCards(newCard)        
+            .then(() => {
+                this.setState({disableSaveButton: false})
+            })
+
+        } else {            // обновление существующей
+
+            this.props.updateCards(cards)        
+            .then(() => {
+                this.setState({disableSaveButton: false})
+            })
+
+        }
+
     }
 
 
@@ -101,22 +123,24 @@ class SettingsCard extends React.Component {
 
     render() {  
         const { style, pass, showAll, editAll, cardId } = this.props.settings    
-        const { disableUpdateButton } = this.state  
+        const { disableSaveButton } = this.state  
+        const saveButton = cardId ? 'Update' : 'Save'
+
         return (
             <div className="settings-block">
                 <div className="row-1">
-                    <div className={`update-button${disableUpdateButton ? " disabled" : ""}`} onClick={this.onUpdateButton}>
-                        {disableUpdateButton ? "Loading..." : "Update"}
+                    <div className={`save-button${disableSaveButton ? " disabled" : ""}`} onClick={this.onSaveButton}>
+                        {disableSaveButton ? "Loading..." : saveButton}
                     </div>
                     <div className="show-all-toggle" onClick={this.showAllButton}>showAll{showAll ? '*' : ''}</div>
-                    <div className="edit-all-toggle" onClick={this.editAllButton}>editAll{editAll ? '*' : ''}</div>
+                    <div className="edit-all-toggle" onClick={this.editAllButton}>editAll{this.state.editAll ? '*' : ''}</div>
                     <div className="pass-input">
                         <input type="password" value={pass} onChange={this.onPassInputChange} />
                     </div>
                 </div>
                 <div className="row-2">
                     <div className="style-input">
-                        <textarea value={style.trim().length > 0 ? style : `#${cardId}{}`} onChange={this.onStyleTextareaChange} cols="48" />
+                        <textarea value={style && style.trim().length > 0 ? style : `#${cardId}{}`} onChange={this.onStyleTextareaChange} cols="48" />
                     </div> 
                 </div>
             </div>

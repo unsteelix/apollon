@@ -16,6 +16,7 @@ import TextEdit from './cards/TextEdit.jsx'
 
 /*     utils          */
 import LockScreen from './LockScreen.jsx'
+import LockForEdit from './LockForEdit.jsx'
 
 import TagsCardEdit from './TagsCardEdit.jsx'
 import TagsCard from './TagsCard.jsx'
@@ -31,9 +32,10 @@ class Card extends React.Component {
 
         const { cardId, data, pass, title, tags, style, userId, editAll, showAll } = this.props.data
         const type = data.type;
+        const { mode = 'view' } = this.props
 
         this.state = {
-            mode: 'view',    // view, edit
+            mode: mode,    // view, edit
 
             /*        card data      */
             cardId: cardId,
@@ -152,21 +154,21 @@ class Card extends React.Component {
             title: title,
             data: data,
             tags: tags,
-            userId: userId
+            userId: userId   
         }
-
-        //TODO: СДЕЛАТЬ БЛОКИРОВКУ ДЛЯ РЕДАКТИРОВАНИЯ ЕСЛИ НЕТ ДОСТУПА editAll
 
         return (
             <LockScreen pass={pass} >
                 <div className={`card ${this.state.mode}-mode`} id={cardId} onDoubleClick={this.switchMode} >
-                    <style type="text/css">{style}</style>
-                    <TitleElement title={title} onTitleChange={this.onTitleChange} />
-                    <div className="card-body">
-                        <CardElement data={data} onDataChange={this.onDataChange} />
-                    </div>
-                    {mode === 'edit' && <SettingsCard settings={settings} otherData={otherData} onSettingsChange={this.onSettingsChange} />}
-                    <TagsElement tags={tags} onTagsChange={this.onTagsChange} />
+                    <LockForEdit userId={userId} editAll={editAll} mode={mode}>
+                        <style type="text/css">{style}</style>
+                        <TitleElement title={title} onTitleChange={this.onTitleChange} />
+                        <div className="card-body">
+                            <CardElement data={data} onDataChange={this.onDataChange} />
+                        </div>
+                        <TagsElement tags={tags} onTagsChange={this.onTagsChange} />
+                        {mode === 'edit' && <SettingsCard settings={settings} otherData={otherData} onSettingsChange={this.onSettingsChange} />}
+                    </LockForEdit>
                 </div>
             </LockScreen>
         );

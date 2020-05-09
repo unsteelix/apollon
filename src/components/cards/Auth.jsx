@@ -1,11 +1,6 @@
 import * as React from "react";
 import { connect } from 'react-redux'
 import { fetchPrivateCards, updateCards, resetQuery, setUser } from '../../actions/index.js'
-import { hasInList, getPassExprByList, rawDataObjToStr, parseRawInputText } from '../../utils/utils'
-import Help from './Help.jsx'
-import User from './User.jsx'
-import { isThisTypeNode, getAllJSDocTagsOfKind } from "typescript";
-import { cardsRef } from '../../firebase'
 
 class Auth extends React.Component {
     constructor(props) {

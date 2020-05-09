@@ -2,7 +2,6 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-    mode: 'none',
     devtool: "source-map", // Enable sourcemaps for debugging webpack's output.
     entry: "./src/index.jsx", // входная точка - исходный файл
     output:{

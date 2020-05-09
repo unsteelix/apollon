@@ -98,7 +98,7 @@ class Cards extends React.Component {
 
         for(var cardId in cards){
             let card = cards[cardId]
-            if(card.title.toLowerCase().includes(query) || card.data.text.toLowerCase().includes(query)){
+            if(card && (card.title.toLowerCase().includes(query) || card.data.text.toLowerCase().includes(query))){
                 res[cardId] = card
             }
         }

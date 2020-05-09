@@ -37,6 +37,7 @@ class SettingsCard extends React.Component {
         this.onSettingsChange = this.props.onSettingsChange;
 
         this.onSaveButton = this.onSaveButton.bind(this);
+        this.onDeleteButton = this.onDeleteButton.bind(this);
     }
 
 
@@ -116,6 +117,18 @@ class SettingsCard extends React.Component {
     }
 
 
+    onDeleteButton() {
+        const { cardId } = this.props.settings
+
+        if(confirm('Точно удалить?')){
+            this.props.updateCards({
+                [cardId]: null
+            })
+        }
+
+    }
+
+
 
 
     render() {  
@@ -134,6 +147,7 @@ class SettingsCard extends React.Component {
                     <div className="pass-input">
                         <input type="password" value={pass} onChange={this.onPassInputChange} />
                     </div>
+                    <div className="delete-button" onClick={this.onDeleteButton} >del</div>
                 </div>
                 <div className="row-2">
                     <div className="style-input">

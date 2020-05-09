@@ -22,7 +22,7 @@ function cardsReducer(state = {}, action) {
             let onlyPublicCards = {}
             for(let cardId in state){
                 const card = state[cardId]
-                if(card.showAll){
+                if(card && card.showAll){
                     onlyPublicCards[cardId] = card
                 }
             }

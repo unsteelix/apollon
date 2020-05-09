@@ -36,6 +36,7 @@ class Card extends React.Component {
 
         this.state = {
             mode: mode,    // view, edit
+            class: '',     // '', show
 
             /*        card data      */
             cardId: cardId,
@@ -59,6 +60,17 @@ class Card extends React.Component {
         this.onDataChange = this.onDataChange.bind(this);
         this.onSettingsChange = this.onSettingsChange.bind(this);
         this.onTagsChange = this.onTagsChange.bind(this);
+    }
+
+
+    componentDidMount() {
+        setTimeout(()=>{
+            this.setState({class: 'show'})
+        }, 1)
+    }
+
+    componentWillUnmount() {
+
     }
 
     // если вызвать без аргументов то переключает текущий режим
@@ -159,7 +171,7 @@ class Card extends React.Component {
 
         return (
             <LockScreen pass={pass} >
-                <div className={`card ${this.state.mode}-mode`} id={cardId} onDoubleClick={this.switchMode} >
+                <div className={`card ${this.state.mode}-mode ${this.state.class}`} id={cardId} onDoubleClick={this.switchMode} >
                     <LockForEdit userId={userId} editAll={editAll} mode={mode}>
                         <style type="text/css">{style}</style>
                         <TitleElement title={title} onTitleChange={this.onTitleChange} />

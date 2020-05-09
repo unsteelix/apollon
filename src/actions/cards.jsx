@@ -20,7 +20,7 @@ export const fetchPrivateCards = (userId) => async dispatch => {
     });
 };
 
-export const updateCards = (cards) => dispatch => {
+export const updateCards = (cards) => async dispatch => {
     return cardsRef.update(cards)
     .then((res) => {
         dispatch({

@@ -7,8 +7,8 @@ import { hasInList, getPassExprByList } from '../utils/utils'
 import Card from './Card.jsx'
 
 /*     admin card     */
-import Help from './cards/Help.jsx'
-import User from './cards/User.jsx'
+//import Help from './cards/Help.jsx'
+//import User from './cards/User.jsx'
 import Auth from './cards/Auth.jsx'
 
 /*     users card     */
@@ -183,6 +183,7 @@ class Cards extends React.Component {
         if(specWords){
             
             res = specWords.map(data => {
+                /*
                 if(hasInList(specWords, '/h')){
                     return <Help key="help-card" />
                 }    
@@ -190,7 +191,7 @@ class Cards extends React.Component {
                 if(hasInList(specWords, '/u')){
                     return <User key="user-card" />
                 }  
-
+*/
                 if(hasInList(specWords, '/a')){
                     return <Auth key="auth-card" />
                 }  

@@ -12,7 +12,7 @@ import User from './cards/User.jsx'
 import Auth from './cards/Auth.jsx'
 
 /*     users card     */
-import Text from './cards/Text.jsx'
+//import Text from './cards/Text.jsx'
 
 
 

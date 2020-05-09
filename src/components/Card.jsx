@@ -4,9 +4,9 @@ import { fetchPrivateCards, updateCards, resetQuery, setUser } from '../actions/
 
 
 /*     admin card     */
-import Help from './cards/Help.jsx'
-import User from './cards/User.jsx'
-import Auth from './cards/Auth.jsx'
+//import Help from './cards/Help.jsx'
+//import User from './cards/User.jsx'
+//import Auth from './cards/Auth.jsx'
 
 /*     users card     */
 import Text from './cards/Text.jsx'
